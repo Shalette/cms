@@ -25,6 +25,8 @@ echo "<script>alert('Invalid format. Only jpg / jpeg/ png /gif format allowed');
 else
 {
 //rename the image file
+ if($extension=="jpeg")
+ $extension=".jpeg";
 $imgnewfile=md5($imgfile).$extension;
 // Code for move image into directory
 move_uploaded_file($_FILES["image"]["tmp_name"],"userimages/".$imgnewfile) or die("Not Working");
