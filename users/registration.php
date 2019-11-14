@@ -14,9 +14,12 @@ if(strlen($_SESSION['alogin'])!=0)
 header('location:../admin/notprocess-complaint.php');
 }
 
-include('includes/config.php');
-if(isset($_POST['submit']))
-{
+include('includes/config.php');
+
+if(isset($_POST['submit']))
+
+{
+
 	$fullname=mysqli_real_escape_string($con,$_POST['fullname']);
 	$email=mysqli_real_escape_string($con,$_POST['email']);
 	$password=mysqli_real_escape_string($con, md5($_POST['password']));
@@ -31,8 +34,10 @@ if(isset($_POST['submit']))
 	$block="G";
 	$roomno=mysqli_real_escape_string($con,$_POST['roomno']);
 	$status=0;
-  $confirmcode=rand(100000, 999999);
-  $query=mysqli_query($con,"insert into users(fullName,userEmail,password,contactNo, block, hostel, roomNo, status, confirmcode) values('$fullname','$email','$password','$contactno', '$block','$gender', '$roomno', '$status', '$confirmcode')") or die(mysqli_error($con));
+  $confirmcode=rand(100000, 999999);
+
+  $query=mysqli_query($con,"insert into users(fullName,userEmail,password,contactNo, block, hostel, roomNo, status, confirmcode) values('$fullname','$email','$password','$contactno', '$block','$gender', '$roomno', '$status', '$confirmcode')") or die(mysqli_error($con));
+
 	$extra="validate.php?email=".$email."&confirmcode=".$confirmcode;
 	$host=$_SERVER['HTTP_HOST'];
 	$uri=rtrim(dirname($_SERVER['PHP_SELF']),'/\\');
@@ -42,12 +47,12 @@ if(isset($_POST['submit']))
 	    $mail->isSMTP();                                      // Set mailer to use SMTP
 	    $mail->Host = 'smtp.gmail.com';  // Specify main and backup SMTP servers
 	    $mail->SMTPAuth = true;                               // Enable SMTP authentication
-	    $mail->Username = 'DoNotReplyBmsit@gmail.com';                 // SMTP username
-	    $mail->Password = 'Test@123';                           // SMTP password
+	    $mail->Username = '';                 // SMTP username
+	    $mail->Password = '';                           // SMTP password
 	    $mail->SMTPSecure = 'tls';                            // Enable TLS encryption, `ssl` also accepted
 	    $mail->Port = 587;                                    // TCP port to connect to
 	    //Recipients
-	    $mail->setFrom('DoNotReplyBmsit@gmail.com', 'BMSIT CMS');
+	    $mail->setFrom('', 'BMSIT CMS');
 	    $mail->addAddress($email, $fullname);     // Add a recipient             // Name is optional
 	    //Content
 	    $mail->isHTML(true);                                  // Set email format to HTML
@@ -76,55 +81,103 @@ if(isset($_POST['submit']))
 	}
 
 }
-?>
-
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BMSIT CMS | User Registration</title>
+?>
+
+
+
+<!DOCTYPE html>
+
+<html lang="en">
+
+  <head>
+
+    <meta charset="utf-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>BMSIT CMS | User Registration</title>
+
 		<link rel="shortcut icon" type="image/png" href="../img/tiny.png"/>
 		<?php include('includes/additional.php') ?>
-  </head>
-	<body style="background: url('../img/bg.jpg') no-repeat; background-size:cover;">
+  </head>
+
+	<body style="background: url('../img/bg.jpg') no-repeat; background-size:cover;">
+
 		  <div style="height: 90%">
-		<nav class="navbar navbar-inverse navbar-fixed-top">
-      <div class="container">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <a href="../../cms"  class="navbar-brand">BMSIT & M</a>
-        </div>
-				<div class="collapse navbar-collapse" id="myNavbar">
-          <ul class="nav navbar-nav navbar-right">
-            <li><a href="../users" title="Sign In"><i class="fa fa-sign-in"></i>&nbsp;&nbsp;Sign In </a></li>
-            <li><a href="../admin" title="Admin Only"><i class="fa fa-user-circle"></i>&nbsp;&nbsp;Admin Login</a></li>
-          </ul>
-        </div>
-			</div>
-		</nav>
-		<div id="login-page" style="padding-top: 12rem;  height: 90%">
-	  	<div class="container">
-				<div class="row">
-					<div class="col-md-offset-3 col-md-6 col-xs-12">
-		      	<form class="panel panel-info" name="register" method="post">
-            	<div class="panel-heading text-center">
-              	<h3><b>User Registration</b></h3>
-            	</div>
-		        	<p style="padding-left: 1%; color: green">
-		        	<?php if($msg){
-							echo htmlentities($msg); }?> </p>
-		        	<div class="login-wrap">
-			         	<input type="text" class="form-control" placeholder="Full Name (No Special Characters)" name="fullname" pattern="[A-Z][A-Za-z\s]{1,}"required="required" autofocus oninvalid="this.setCustomValidity('Enter Valid Name')" oninput="this.setCustomValidity('')">
-			          <br>
-			          <input type="email" class="form-control" placeholder="Email ID" id="email" onBlur="userAvailability()" name="email" required="required" oninvalid="this.setCustomValidity('Enter Valid Email')" oninput="this.setCustomValidity('')">
-								<br>
-			          <input type="text" class="form-control" maxlength="10" name="contactno" id="contact" onBlur="userAvailability()" placeholder="Contact Number" required="required" pattern="[6-9]([0-9]{9})" oninvalid="this.setCustomValidity('Enter Valid Mobile Number')" oninput="this.setCustomValidity('')"autofocus>
-			          <br>
+		<nav class="navbar navbar-inverse navbar-fixed-top">
+
+      <div class="container">
+
+        <div class="navbar-header">
+
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+
+            <span class="icon-bar"></span>
+
+            <span class="icon-bar"></span>
+
+            <span class="icon-bar"></span>
+
+          </button>
+
+          <a href="../../cms"  class="navbar-brand">BMSIT & M</a>
+
+        </div>
+
+				<div class="collapse navbar-collapse" id="myNavbar">
+
+          <ul class="nav navbar-nav navbar-right">
+
+            <li><a href="../users" title="Sign In"><i class="fa fa-sign-in"></i>&nbsp;&nbsp;Sign In </a></li>
+
+            <li><a href="../admin" title="Admin Only"><i class="fa fa-user-circle"></i>&nbsp;&nbsp;Admin Login</a></li>
+
+          </ul>
+
+        </div>
+
+			</div>
+
+		</nav>
+
+		<div id="login-page" style="padding-top: 12rem;  height: 90%">
+
+	  	<div class="container">
+
+				<div class="row">
+
+					<div class="col-md-offset-3 col-md-6 col-xs-12">
+
+		      	<form class="panel panel-info" name="register" method="post">
+
+            	<div class="panel-heading text-center">
+
+              	<h3><b>User Registration</b></h3>
+
+            	</div>
+
+		        	<p style="padding-left: 1%; color: green">
+
+		        	<?php if($msg){
+
+							echo htmlentities($msg);
+ }?>
+ </p>
+
+		        	<div class="login-wrap">
+
+			         	<input type="text" class="form-control" placeholder="Full Name (No Special Characters)" name="fullname" pattern="[A-Z][A-Za-z\s]{1,}"required="required" autofocus oninvalid="this.setCustomValidity('Enter Valid Name')" oninput="this.setCustomValidity('')">
+
+			          <br>
+
+			          <input type="email" class="form-control" placeholder="Email ID" id="email" onBlur="userAvailability()" name="email" required="required" oninvalid="this.setCustomValidity('Enter Valid Email')" oninput="this.setCustomValidity('')">
+
+								<br>
+
+			          <input type="text" class="form-control" maxlength="10" name="contactno" id="contact" onBlur="userAvailability()" placeholder="Contact Number" required="required" pattern="[6-9]([0-9]{9})" oninvalid="this.setCustomValidity('Enter Valid Mobile Number')" oninput="this.setCustomValidity('')"autofocus>
+
+			          <br>
+
 								<select name="hostel" id='gender' class="form-control" onChange="getBlock(this.value)" required>
 									<option value="" hidden selected disabled>Gender</option>
 									<?php $query=mysqli_query($con,"select * from hostel");
@@ -139,20 +192,33 @@ if(isset($_POST['submit']))
 								<br>
 								<input type="password" class="form-control" placeholder="Password (Minimum 6 characters)" pattern=".{6,}" required="required" name="password"><br>
 								<span id="user-availability-status1" style="font-size:12px;"></span>
-		            <button class="btn btn-theme btn-block"  type="submit" name="submit" id="submit"><i class="fa fa-user"></i> Register</button>
-		            <br>
-		            <div class="registration">Already Registered<br>
-		              <a class="" href="index.php">Sign in</a>
-		            </div>
-		        	</div>
-		      	</form>
-	  			</div>
-	  		</div>
+		            <button class="btn btn-theme btn-block"  type="submit" name="submit" id="submit"><i class="fa fa-user"></i> Register</button>
+
+		            <br>
+
+		            <div class="registration">
+Already Registered<br>
+
+		              <a class="" href="index.php">
+Sign in
+</a>
+
+		            </div>
+
+		        	</div>
+
+		      	</form>
+
+	  			</div>
+
+	  		</div>
+
 			</div>
 		</div>
 	</div>
 		<?php include("includes/footer.php");?>
-    <!-- js placed at the end of the document so the pages load faster -->
+    <!-- js placed at the end of the document so the pages load faster -->
+
 		<?php include('includes/scripts.php') ?>
 		<script>
 			function userAvailability()
@@ -182,5 +248,7 @@ if(isset($_POST['submit']))
 			});
 			}
 		</script>
-  </body>
-</html>
+  </body>
+
+</html>
+
